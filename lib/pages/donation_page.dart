@@ -1,5 +1,7 @@
 // pages/donation_page.dart
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../state/donation_state.dart';
 
 class DonationPage extends StatefulWidget {
   @override
@@ -36,18 +38,23 @@ class _DonationPageState extends State<DonationPage> {
       // Simulate a network request
       Future.delayed(Duration(seconds: 2), () {
         Navigator.of(context).pop(); // Close the processing dialog
+
+        // Add the donation to the state
+        Provider.of<DonationState>(context, listen: false)
+            .addDonation(Donation(charity: _selectedCharity, amount: _amount));
+
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
             title: Text('Thank You!'),
-            content: Text('$_name, your donation of \$$_amount to $_selectedCharity has been received.'),
+            content: Text(
+                '$_name, your donation of \$$_amount to $_selectedCharity has been received.'),
             actions: [
               TextButton(
                 child: Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  // Add to past donations (in a real app, this would be saved to a database)
-                  // You might want to use a state management solution or a service to handle this
+                  Navigator.of(context).pop(); // Return to previous page
                 },
               ),
             ],
