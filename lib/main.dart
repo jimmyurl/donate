@@ -1,11 +1,6 @@
-// main.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'pages/login_page.dart';
 import 'pages/home_page.dart';
-import 'pages/donation_page.dart';
-import 'pages/past_donations_page.dart';
-import 'pages/charities_page.dart';
 import 'state/donation_state.dart';
 
 void main() {
@@ -26,14 +21,7 @@ class DonationApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => LoginPage(),
-        '/home': (context) => HomePage(),
-        '/donate': (context) => DonationPage(),
-        '/past_donations': (context) => PastDonationsPage(),
-        '/charities': (context) => CharitiesPage(),
-      },
+      home: HomePage(), // Use HomePage as the default route
     );
   }
 }
