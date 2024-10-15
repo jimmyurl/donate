@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'donation_page.dart';
 import 'past_donations_page.dart';
 import 'charities_page.dart';
@@ -12,21 +13,31 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int activeIndex = 0;
 
-  final List<Widget> _pages = [
-    Center(
-      child: Text(
-        'Welcome to the Donation App!',
-        style: TextStyle(fontSize: 24),
-      ),
-    ),
-    DonationPage(),
-    PastDonationsPage(),
-    CharitiesPage(),
+  // Sample data for current charities and past donations
+  final List<Map<String, String>> currentCharities = [
+    {"title": "Charity 1", "image": "assets/images/charity1.png"},
+    {"title": "Charity 2", "image": "assets/images/charity2.jpg"},
+    {"title": "Charity 3", "image": "assets/images/charity3.jpg"},
+  ];
+
+  final List<Map<String, String>> pastDonations = [
+    {"title": "Donation 1", "image": "assets/images/donation1.jpg"},
+    {"title": "Donation 2", "image": "assets/images/donation2.jpg"},
+    {"title": "Donation 3", "image": "assets/images/donation3.jpg"},
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue,
+        centerTitle: true, // Center the logo
+        title: Image.asset(
+          'assets/images/logo.png', // Add your logo image here
+          height: 40, // Adjust the height as needed
+        ),
+        elevation: 0,
+      ),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.white,
         buttonBackgroundColor: Colors.blue,
@@ -58,139 +69,84 @@ class _HomePageState extends State<HomePage> {
           });
         },
       ),
-      body: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Positioned(
-            right: 0.0,
-            top: -20.0,
-            child: Opacity(
-              opacity: 0.3,
-              child: Image.asset(
-                "assets/images/washing_machine_illustration.png", // Replace this with your asset
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: kToolbarHeight),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child:
-                              Icon(Icons.arrow_back_ios, color: Colors.black),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: "Welcome Back,\n",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge
-                                          ?.copyWith(color: Colors.black),
-                                    ),
-                                    TextSpan(
-                                      text: "User!",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge
-                                          ?.copyWith(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Image.asset(
-                              "assets/images/user.png", // Replace with your user image
-                              height: 80,
-                              width: 80,
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 50.0),
-                  Container(
-                    width: double.infinity,
-                    constraints: BoxConstraints(
-                      minHeight: MediaQuery.of(context).size.height - 200.0,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30.0),
-                        topRight: Radius.circular(30.0),
-                      ),
-                      color: Colors.white,
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 24.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Text(
-                            "New Locations",
-                            style: TextStyle(
-                              color: Color.fromRGBO(19, 22, 33, 1),
-                              fontSize: 18.0,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 7.0),
-                        Container(
-                          height: 100.0, // Adjust the height accordingly
-                          child: Center(
-                            child: Text(
-                                "Location Slider Placeholder"), // Replace with your widget
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24.0),
-                          child: Text(
-                            "Latest Donations",
-                            style: TextStyle(
-                              color: Color.fromRGBO(19, 22, 33, 1),
-                              fontSize: 18.0,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 7.0),
-                        // Add a widget here for the latest donations
-                        Container(
-                          height:
-                              100.0, // Placeholder for your donations section
-                          child: Center(
-                            child: Text("Latest Donations Placeholder"),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            _buildCarousel('Current Charities', currentCharities),
+            SizedBox(height: 20),
+            _buildCarousel('Past Donations', pastDonations),
+          ],
+        ),
       ),
+    );
+  }
+
+  // Build the carousel slider for the lists
+  Widget _buildCarousel(String title, List<Map<String, String>> items) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+        CarouselSlider(
+          options: CarouselOptions(
+            height: 180.0,
+            enlargeCenterPage: true,
+            autoPlay: true,
+            aspectRatio: 16 / 9,
+            autoPlayCurve: Curves.fastOutSlowIn,
+            enableInfiniteScroll: true,
+            autoPlayAnimationDuration: Duration(milliseconds: 800),
+            viewportFraction: 0.8,
+          ),
+          items: items.map((item) {
+            return Builder(
+              builder: (BuildContext context) {
+                return Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  elevation: 5,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(15.0),
+                        child: Image.asset(
+                          item['image'] ?? 'assets/images/placeholder.png',
+                          fit: BoxFit.cover,
+                          height: 120.0,
+                          width: double.infinity,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          item['title'] ?? 'No Title',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 }
