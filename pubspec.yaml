@@ -28,5 +28,11 @@ flutter:
 
   assets:
     - assets/images/user.png
-    - assets/images/logo.png
+    - assets/icons/logo.png
+    - assets/images/charity1.png
+    - assets/images/charity2.jpg
+    - assets/images/charity3.jpg
+    - assets/images/donation1.png
+    - assets/images/donation2.jpg
+    - assets/images/donation3.jpg
   

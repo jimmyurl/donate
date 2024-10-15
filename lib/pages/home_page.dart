@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
 
   // Sample data for current charities and past donations
   final List<Map<String, String>> currentCharities = [
-    {"title": "Charity 1", "image": "assets/images/charity1.png"},
+    {"title": "Charity 1", "image": "assets/images/charity1.jpg"},
     {"title": "Charity 2", "image": "assets/images/charity2.jpg"},
     {"title": "Charity 3", "image": "assets/images/charity3.jpg"},
   ];
@@ -30,14 +30,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        centerTitle: true, // Center the logo
+        backgroundColor: const Color.fromARGB(255, 251, 251, 252),
+        centerTitle: true,
         title: Image.asset(
-          'assets/images/logo.png', // Add your logo image here
+          'assets/icons/logo.png', // Add your logo image here
           height: 40, // Adjust the height as needed
         ),
         elevation: 0,
       ),
+      backgroundColor: Colors.pink[50], // Set the pale pink background
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.white,
         buttonBackgroundColor: Colors.blue,
