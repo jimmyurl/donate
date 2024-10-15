@@ -16,6 +16,8 @@ dependencies:
   curved_navigation_bar: ^1.0.6
   flutter_screenutil: ^5.9.3
   carousel_slider: ^5.0.0
+  google_fonts: ^6.2.1
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -28,11 +30,12 @@ flutter:
 
   assets:
     - assets/images/user.png
-    - assets/icons/logo.png
+    - assets/icons/logob.png
     - assets/images/charity1.png
     - assets/images/charity2.jpg
     - assets/images/charity3.jpg
     - assets/images/donation1.png
     - assets/images/donation2.jpg
     - assets/images/donation3.jpg
+    - assets/images/user_avatar.png
   
