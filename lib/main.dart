@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pages/home_page.dart';
+import 'pages/education_page.dart';
+import 'pages/healthcare_page.dart';
+import 'pages/clean_water_page.dart';
+import 'pages/conservation_page.dart';
 import 'state/donation_state.dart';
 
 void main() {
@@ -36,9 +40,10 @@ class _MainPageState extends State<MainPage> {
 
   final List<Widget> _pages = [
     HomePage(),
-    Text('Charity Page'),
-    Text('Donation Page'),
-    Text('Profile Page'),
+    EducationPage(),
+    HealthcarePage(),
+    CleanWaterPage(),
+    ConservationPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -48,7 +53,6 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _openMapSearch() {
-    // TODO: Implement map search functionality
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -82,24 +86,33 @@ class _MainPageState extends State<MainPage> {
         shape: CircularNotchedRectangle(),
         notchMargin: 6.0,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             IconButton(
-              icon: Image.asset('assets/icons/home.png'),
+              icon: Icon(Icons.home),
+              color: _selectedIndex == 0 ? Colors.pink[800] : Colors.grey,
               onPressed: () => _onItemTapped(0),
             ),
             IconButton(
-              icon: Image.asset('assets/icons/charity.png'),
+              icon: Icon(Icons.school),
+              color: _selectedIndex == 1 ? Colors.pink[800] : Colors.grey,
               onPressed: () => _onItemTapped(1),
             ),
             SizedBox(width: 40), // Space for the FAB
             IconButton(
-              icon: Image.asset('assets/icons/donation.png'),
+              icon: Icon(Icons.local_hospital),
+              color: _selectedIndex == 2 ? Colors.pink[800] : Colors.grey,
               onPressed: () => _onItemTapped(2),
             ),
             IconButton(
-              icon: Image.asset('assets/icons/profile.png'),
+              icon: Icon(Icons.water_drop),
+              color: _selectedIndex == 3 ? Colors.pink[800] : Colors.grey,
               onPressed: () => _onItemTapped(3),
+            ),
+            IconButton(
+              icon: Icon(Icons.nature),
+              color: _selectedIndex == 4 ? Colors.pink[800] : Colors.grey,
+              onPressed: () => _onItemTapped(4),
             ),
           ],
         ),

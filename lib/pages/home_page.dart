@@ -18,36 +18,51 @@ class _HomePageState extends State<HomePage>
   TextEditingController _searchController = TextEditingController();
   final List<Map<String, String>> currentCharities = [
     {
-      "title": "Save the Oceans",
-      "image": "assets/images/charity1.png",
-      "impact": "10,000 lbs of plastic removed"
+      "title": "Support the Less Fortunate",
+      "image": "assets/images/charity1.jpg",
+      "impact": "10,000 people supported"
     },
     {
-      "title": "Feed the Hungry",
-      "image": "assets/images/charity2.jpg",
-      "impact": "50,000 meals served"
+      "title": "Education for All",
+      "image": "assets/images/education.jpg",
+      "impact": "5,000 students enrolled"
     },
     {
-      "title": "Educate Children",
-      "image": "assets/images/charity3.jpg",
-      "impact": "1,000 children enrolled"
+      "title": "Healthcare Initiative",
+      "image": "assets/images/healthcare.jpg",
+      "impact": "20,000 patients treated"
+    },
+    {
+      "title": "Clean Water Project",
+      "image": "assets/images/clean_water.jpg",
+      "impact": "50 communities served"
+    },
+    {
+      "title": "Environmental Conservation",
+      "image": "assets/images/conservation.jpg",
+      "impact": "10,000 trees planted"
     },
   ];
 
   final List<Map<String, String>> pastDonations = [
     {
-      "title": "Clean Water Initiative",
-      "image": "assets/images/donation1.png",
-      "amount": "\$500"
+      "title": "Education Fund",
+      "image": "assets/images/donation1.jpg",
+      "amount": "\$1,000"
     },
     {
-      "title": "Reforestation Project",
+      "title": "Healthcare Support",
       "image": "assets/images/donation2.jpg",
       "amount": "\$750"
     },
     {
-      "title": "Animal Shelter Support",
+      "title": "Water Purification",
       "image": "assets/images/donation3.jpg",
+      "amount": "\$500"
+    },
+    {
+      "title": "Tree Planting Initiative",
+      "image": "assets/images/donation4.jpg",
       "amount": "\$300"
     },
   ];
@@ -107,7 +122,7 @@ class _HomePageState extends State<HomePage>
                 child: child,
               );
             },
-            child: Image.asset('assets/icons/logob.png', height: 100),
+            child: Image.asset('assets/icons/logob.png', height: 80),
           ),
         ),
       ),
@@ -275,7 +290,7 @@ class _HomePageState extends State<HomePage>
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Text(
-            'Featured Charities',
+            'Featured Charity Areas',
             style: GoogleFonts.poppins(
               fontSize: 22,
               fontWeight: FontWeight.bold,

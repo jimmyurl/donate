@@ -31,13 +31,18 @@ flutter:
   assets:
     - assets/images/user.png
     - assets/icons/logob.png
-    - assets/images/charity1.png
+    - assets/images/charity1.jpg
     - assets/images/charity2.jpg
     - assets/images/charity3.jpg
-    - assets/images/donation1.png
+    - assets/images/donation1.jpg
     - assets/images/donation2.jpg
     - assets/images/donation3.jpg
+    - assets/images/donation4.jpg
     - assets/images/user_avatar.png
+    - assets/images/conservation.jpg
+    - assets/images/clean_water.jpg
+    - assets/images/education.jpg
+    - assets/images/healthcare.jpg
     - assets/icons/home.png
     - assets/icons/charity.png
     - assets/icons/donation.png
