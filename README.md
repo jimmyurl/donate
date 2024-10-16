@@ -78,8 +78,8 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Your Name - [Your Email](mailto:jimmy.james365@gmail.com)
+James Mpanga - [Email](mailto:jimmy.james365@gmail.com)
 
-Project Link: [GitHub Repository](https://github.com/jimmyurl/donate)
+
 ```
 
