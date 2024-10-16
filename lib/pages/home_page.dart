@@ -14,6 +14,7 @@ class _HomePageState extends State<HomePage>
   int activeIndex = 0;
   late AnimationController _animationController;
   late Animation<double> _animation;
+  String selectedLanguage = 'ENG'; // Language switcher state
 
   final List<Map<String, String>> currentCharities = [
     {
@@ -79,7 +80,7 @@ class _HomePageState extends State<HomePage>
 
   PreferredSize _buildCustomAppBar() {
     return PreferredSize(
-      preferredSize: Size.fromHeight(70.0), // Kept the app bar height the same
+      preferredSize: Size.fromHeight(70.0),
       child: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -124,13 +125,78 @@ class _HomePageState extends State<HomePage>
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 160),
+            _buildLanguageSwitcher(), // Add language switcher here
+            SizedBox(height: 10), // Space between switcher and hero section
             _buildHeroSection(),
             _buildFeaturedCharities(),
             _buildRecentDonations(),
             _buildImpactMetrics(),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildLanguageSwitcher() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                selectedLanguage = 'ENG';
+              });
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              decoration: BoxDecoration(
+                color: selectedLanguage == 'ENG'
+                    ? Colors.pink[300]
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                'ENG',
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: selectedLanguage == 'ENG'
+                      ? Colors.white
+                      : Colors.pink[800],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: 10),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                selectedLanguage = 'SW';
+              });
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              decoration: BoxDecoration(
+                color: selectedLanguage == 'SW'
+                    ? Colors.pink[300]
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                'SW',
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: selectedLanguage == 'SW'
+                      ? Colors.white
+                      : Colors.pink[800],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -270,7 +336,7 @@ class _HomePageState extends State<HomePage>
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Text(
-            'Your Recent Donations',
+            'Recent Donations',
             style: GoogleFonts.poppins(
               fontSize: 22,
               fontWeight: FontWeight.bold,
@@ -278,15 +344,20 @@ class _HomePageState extends State<HomePage>
             ),
           ),
         ),
-        Container(
-          height: 120,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: pastDonations.length,
-            itemBuilder: (context, index) {
-              return _buildDonationCard(pastDonations[index]);
-            },
+        CarouselSlider(
+          options: CarouselOptions(
+            height: 250.0,
+            enlargeCenterPage: true,
+            autoPlay: true,
+            aspectRatio: 16 / 9,
+            autoPlayCurve: Curves.fastOutSlowIn,
+            enableInfiniteScroll: true,
+            autoPlayAnimationDuration: Duration(milliseconds: 800),
+            viewportFraction: 0.8,
           ),
+          items: pastDonations
+              .map((donation) => _buildDonationCard(donation))
+              .toList(),
         ),
       ],
     );
@@ -294,46 +365,48 @@ class _HomePageState extends State<HomePage>
 
   Widget _buildDonationCard(Map<String, String> donation) {
     return Container(
-      width: 200,
-      margin: EdgeInsets.symmetric(horizontal: 10),
-      child: Card(
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-              child: Image.asset(
-                donation['image']!,
-                height: 70,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    donation['title']!,
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.pink[800],
-                    ),
+      margin: EdgeInsets.all(5.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        child: Stack(
+          children: <Widget>[
+            Image.asset(donation['image']!, fit: BoxFit.cover, width: 1000.0),
+            Positioned(
+              bottom: 0.0,
+              left: 0.0,
+              right: 0.0,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(200, 0, 0, 0),
+                      Color.fromARGB(0, 0, 0, 0)
+                    ],
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
                   ),
-                  Text(
-                    donation['amount']!,
-                    style: GoogleFonts.roboto(
-                      fontSize: 14,
-                      color: Colors.grey[700],
+                ),
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      donation['title']!,
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
+                    Text(
+                      donation['amount']!,
+                      style: GoogleFonts.roboto(
+                        color: Colors.white,
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -344,68 +417,36 @@ class _HomePageState extends State<HomePage>
 
   Widget _buildImpactMetrics() {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Container(
-        padding: const EdgeInsets.all(15.0),
-        decoration: BoxDecoration(
-          color: Colors.pink[50],
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              offset: Offset(0, 2),
-              blurRadius: 5,
-            ),
-          ],
-        ),
-        child: Column(
-          children: [
-            Text(
-              'Impact Summary',
-              style: GoogleFonts.poppins(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.pink[800],
-              ),
-            ),
-            SizedBox(height: 10),
-            Text(
-              'Thanks to your generosity, here\'s what we\'ve achieved together:',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.roboto(
-                fontSize: 16,
-                color: Colors.grey[700],
-              ),
-            ),
-            SizedBox(height: 20),
-            _buildImpactMetric('100,000', 'lbs of plastic removed'),
-            _buildImpactMetric('250,000', 'meals served to the hungry'),
-            _buildImpactMetric('50,000', 'children educated'),
-          ],
-        ),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildImpactMetric('Total Donations', '\$100,000'),
+          _buildImpactMetric('Projects Funded', '50'),
+          _buildImpactMetric('Volunteers', '200'),
+        ],
       ),
     );
   }
 
-  Widget _buildImpactMetric(String value, String description) {
+  Widget _buildImpactMetric(String title, String value) {
     return Column(
       children: [
         Text(
           value,
           style: GoogleFonts.poppins(
-            fontSize: 28,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
             color: Colors.pink[800],
           ),
         ),
         Text(
-          description,
+          title,
           style: GoogleFonts.roboto(
-            fontSize: 16,
-            color: Colors.grey[700],
+            fontSize: 14,
+            color: Colors.grey[600],
           ),
         ),
-        SizedBox(height: 10),
       ],
     );
   }
