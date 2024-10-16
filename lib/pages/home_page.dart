@@ -14,8 +14,9 @@ class _HomePageState extends State<HomePage>
   int activeIndex = 0;
   late AnimationController _animationController;
   late Animation<double> _animation;
-  String selectedLanguage = 'ENG'; // Language switcher state
-
+  String selectedLanguage = 'ENG';
+  TextEditingController _searchController = TextEditingController();
+  bool _isSearchExpanded = false;
   final List<Map<String, String>> currentCharities = [
     {
       "title": "Save the Oceans",
@@ -66,6 +67,7 @@ class _HomePageState extends State<HomePage>
   @override
   void dispose() {
     _animationController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -89,7 +91,7 @@ class _HomePageState extends State<HomePage>
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Colors.pink[100]!, Colors.pink[200]!],
+              colors: [Colors.pink[800]!, Colors.pink[800]!],
             ),
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(30),
@@ -125,8 +127,8 @@ class _HomePageState extends State<HomePage>
       child: SingleChildScrollView(
         child: Column(
           children: [
-            _buildLanguageSwitcher(), // Add language switcher here
-            SizedBox(height: 10), // Space between switcher and hero section
+            SizedBox(height: 80),
+            _buildSearchAndLanguage(),
             _buildHeroSection(),
             _buildFeaturedCharities(),
             _buildRecentDonations(),
@@ -139,64 +141,156 @@ class _HomePageState extends State<HomePage>
 
   Widget _buildLanguageSwitcher() {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                selectedLanguage = 'ENG';
-              });
-            },
+          _buildLanguageOption('ENG'),
+          SizedBox(width: 20),
+          _buildLanguageOption('SW'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSearchAndLanguage() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 3,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              height: 40,
               decoration: BoxDecoration(
-                color: selectedLanguage == 'ENG'
-                    ? Colors.pink[300]
-                    : Colors.transparent,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 1,
+                    blurRadius: 3,
+                    offset: Offset(0, 1),
+                  ),
+                ],
               ),
-              child: Text(
-                'ENG',
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: selectedLanguage == 'ENG'
-                      ? Colors.white
-                      : Colors.pink[800],
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: 'Search charities...',
+                  prefixIcon: Icon(Icons.search, color: Colors.pink[300]),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(vertical: 10),
                 ),
               ),
             ),
           ),
           SizedBox(width: 10),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                selectedLanguage = 'SW';
-              });
-            },
+          Expanded(
+            flex: 2,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              height: 40,
               decoration: BoxDecoration(
-                color: selectedLanguage == 'SW'
-                    ? Colors.pink[300]
-                    : Colors.transparent,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 1,
+                    blurRadius: 3,
+                    offset: Offset(0, 1),
+                  ),
+                ],
               ),
-              child: Text(
-                'SW',
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: selectedLanguage == 'SW'
-                      ? Colors.white
-                      : Colors.pink[800],
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildLanguageOption('ENG'),
+                  _buildLanguageOption('SW'),
+                ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLanguageOption(String language) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedLanguage = language;
+        });
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          color: selectedLanguage == language
+              ? Colors.pink[800]
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Text(
+          language,
+          style: GoogleFonts.poppins(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color:
+                selectedLanguage == language ? Colors.white : Colors.pink[800],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSearchBar() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _isSearchExpanded = true;
+        });
+      },
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        width: _isSearchExpanded ? MediaQuery.of(context).size.width : 300,
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 1,
+              blurRadius: 3,
+              offset: Offset(0, 1),
+            ),
+          ],
+        ),
+        child: TextField(
+          controller: _searchController,
+          decoration: InputDecoration(
+            hintText: 'Search charities...',
+            prefixIcon: Icon(Icons.search, color: Colors.pink[300]),
+            suffixIcon: _isSearchExpanded
+                ? IconButton(
+                    icon: Icon(Icons.close, color: Colors.pink[300]),
+                    onPressed: () {
+                      setState(() {
+                        _isSearchExpanded = false;
+                        _searchController.clear();
+                      });
+                    },
+                  )
+                : null,
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+          ),
+          onSubmitted: (value) {
+            // TODO: Implement search functionality
+            print('Searching for: $value');
+          },
+        ),
       ),
     );
   }
@@ -230,7 +324,7 @@ class _HomePageState extends State<HomePage>
             },
             child: Text('Donate Now'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.pink[400],
+              backgroundColor: Colors.pink[800],
               foregroundColor: Colors.white,
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
               shape: RoundedRectangleBorder(
