@@ -25,5 +25,5 @@ To get a local copy of the project up and running, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/charity-app.git
-   cd charity-app
+   git clone https://github.com/jimmyurl/donate
+   cd donate
