@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage>
     _animationController = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
-    )..repeat(reverse: true);
+    )..repeat();
     _animation =
         Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
   }
@@ -74,15 +74,12 @@ class _HomePageState extends State<HomePage>
       extendBodyBehindAppBar: true,
       appBar: _buildCustomAppBar(),
       body: _buildBody(),
-      bottomNavigationBar: _buildCustomBottomNavBar(),
-      floatingActionButton: _buildFloatingActionButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 
   PreferredSize _buildCustomAppBar() {
     return PreferredSize(
-      preferredSize: Size.fromHeight(80.0),
+      preferredSize: Size.fromHeight(70.0), // Kept the app bar height the same
       child: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -99,14 +96,17 @@ class _HomePageState extends State<HomePage>
             ),
           ),
         ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image.asset('assets/icons/logob.png', height: 40),
-            CircleAvatar(
-              backgroundImage: AssetImage('assets/images/user_avatar.png'),
-            ),
-          ],
+        title: Center(
+          child: AnimatedBuilder(
+            animation: _animation,
+            builder: (_, child) {
+              return Transform.rotate(
+                angle: _animation.value * 2 * 3.14159,
+                child: child,
+              );
+            },
+            child: Image.asset('assets/icons/logob.png', height: 100),
+          ),
         ),
       ),
     );
@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage>
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 100),
+            SizedBox(height: 160),
             _buildHeroSection(),
             _buildFeaturedCharities(),
             _buildRecentDonations(),
@@ -278,7 +278,7 @@ class _HomePageState extends State<HomePage>
             ),
           ),
         ),
-        SizedBox(
+        Container(
           height: 120,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -321,15 +321,16 @@ class _HomePageState extends State<HomePage>
                   Text(
                     donation['title']!,
                     style: GoogleFonts.poppins(
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      fontSize: 14,
+                      color: Colors.pink[800],
                     ),
                   ),
                   Text(
                     donation['amount']!,
                     style: GoogleFonts.roboto(
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: Colors.grey[700],
                     ),
                   ),
                 ],
@@ -342,119 +343,70 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _buildImpactMetrics() {
-    return Container(
-      padding: EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Your Impact',
-            style: GoogleFonts.poppins(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.pink[800],
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Container(
+        padding: const EdgeInsets.all(15.0),
+        decoration: BoxDecoration(
+          color: Colors.pink[50],
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              offset: Offset(0, 2),
+              blurRadius: 5,
             ),
-          ),
-          SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildImpactCard(
-                  'Total Donated', '\$1,550', Icons.monetization_on),
-              _buildImpactCard('Lives Impacted', '1,230', Icons.people),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildImpactCard(String title, String value, IconData icon) {
-    return Card(
-      elevation: 5,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(15),
+          ],
+        ),
         child: Column(
           children: [
-            Icon(icon, size: 40, color: Colors.pink[400]),
-            SizedBox(height: 10),
             Text(
-              title,
-              style: GoogleFonts.roboto(
-                fontSize: 14,
-                color: Colors.grey[600],
-              ),
-            ),
-            SizedBox(height: 5),
-            Text(
-              value,
+              'Impact Summary',
               style: GoogleFonts.poppins(
-                fontSize: 18,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.pink[800],
               ),
             ),
+            SizedBox(height: 10),
+            Text(
+              'Thanks to your generosity, here\'s what we\'ve achieved together:',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.roboto(
+                fontSize: 16,
+                color: Colors.grey[700],
+              ),
+            ),
+            SizedBox(height: 20),
+            _buildImpactMetric('100,000', 'lbs of plastic removed'),
+            _buildImpactMetric('250,000', 'meals served to the hungry'),
+            _buildImpactMetric('50,000', 'children educated'),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildCustomBottomNavBar() {
-    return BottomAppBar(
-      shape: CircularNotchedRectangle(),
-      notchMargin: 8.0,
-      child: SizedBox(
-        height: 60.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.home,
-                  color: activeIndex == 0 ? Colors.pink[400] : Colors.grey),
-              onPressed: () => setState(() => activeIndex = 0),
-            ),
-            IconButton(
-              icon: Icon(Icons.search,
-                  color: activeIndex == 1 ? Colors.pink[400] : Colors.grey),
-              onPressed: () => setState(() => activeIndex = 1),
-            ),
-            SizedBox(width: 40), // The dummy child
-            IconButton(
-              icon: Icon(Icons.favorite,
-                  color: activeIndex == 2 ? Colors.pink[400] : Colors.grey),
-              onPressed: () => setState(() => activeIndex = 2),
-            ),
-            IconButton(
-              icon: Icon(Icons.person,
-                  color: activeIndex == 3 ? Colors.pink[400] : Colors.grey),
-              onPressed: () => setState(() => activeIndex = 3),
-            ),
-          ],
+  Widget _buildImpactMetric(String value, String description) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: GoogleFonts.poppins(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: Colors.pink[800],
+          ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildFloatingActionButton() {
-    return FloatingActionButton(
-      child: AnimatedBuilder(
-        animation: _animation,
-        builder: (_, child) {
-          return Transform.rotate(
-            angle: _animation.value * 2 * 3.14159,
-            child: child,
-          );
-        },
-        child: Icon(Icons.add),
-      ),
-      onPressed: () {
-        // TODO: Implement quick donation action
-      },
-      backgroundColor: Colors.pink[400],
+        Text(
+          description,
+          style: GoogleFonts.roboto(
+            fontSize: 16,
+            color: Colors.grey[700],
+          ),
+        ),
+        SizedBox(height: 10),
+      ],
     );
   }
 }

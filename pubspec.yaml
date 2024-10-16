@@ -38,4 +38,8 @@ flutter:
     - assets/images/donation2.jpg
     - assets/images/donation3.jpg
     - assets/images/user_avatar.png
+    - assets/icons/home.png
+    - assets/icons/charity.png
+    - assets/icons/donation.png
+    - assets/icons/profile.png
   
