@@ -1,5 +1,4 @@
 
-```markdown
 # Flutter Charity App
 
 A mobile application built with Flutter to facilitate donations to various charities and track recent donations.
