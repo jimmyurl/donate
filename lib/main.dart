@@ -21,7 +21,7 @@ class DonationApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MainPage(), // MainPage now controls the bottom navigation
+      home: MainPage(),
     );
   }
 }
@@ -47,15 +47,35 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  void _openMapSearch() {
+    // TODO: Implement map search functionality
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Nearby Donation Places'),
+          content: Text('Map search functionality will be implemented here.'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Define your action for the FAB here
-        },
-        child: Icon(Icons.add),
+        onPressed: _openMapSearch,
+        child: Icon(Icons.location_on),
+        backgroundColor: Colors.pink[800],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(

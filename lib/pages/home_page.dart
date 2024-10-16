@@ -16,7 +16,6 @@ class _HomePageState extends State<HomePage>
   late Animation<double> _animation;
   String selectedLanguage = 'ENG';
   TextEditingController _searchController = TextEditingController();
-  bool _isSearchExpanded = false;
   final List<Map<String, String>> currentCharities = [
     {
       "title": "Save the Oceans",
@@ -127,8 +126,10 @@ class _HomePageState extends State<HomePage>
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 80),
-            _buildSearchAndLanguage(),
+            SizedBox(height: 90),
+            _buildLanguageSwitcher(),
+            SizedBox(height: 10),
+            _buildSearchBar(),
             _buildHeroSection(),
             _buildFeaturedCharities(),
             _buildRecentDonations(),
@@ -140,77 +141,27 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _buildLanguageSwitcher() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _buildLanguageOption('ENG'),
-          SizedBox(width: 20),
-          _buildLanguageOption('SW'),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 1,
+            blurRadius: 3,
+            offset: Offset(0, 1),
+          ),
         ],
       ),
-    );
-  }
-
-  Widget _buildSearchAndLanguage() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            flex: 3,
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 1,
-                    blurRadius: 3,
-                    offset: Offset(0, 1),
-                  ),
-                ],
-              ),
-              child: TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: 'Search charities...',
-                  prefixIcon: Icon(Icons.search, color: Colors.pink[300]),
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(vertical: 10),
-                ),
-              ),
-            ),
-          ),
+          _buildLanguageOption('ENG'),
           SizedBox(width: 10),
-          Expanded(
-            flex: 2,
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 1,
-                    blurRadius: 3,
-                    offset: Offset(0, 1),
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildLanguageOption('ENG'),
-                  _buildLanguageOption('SW'),
-                ],
-              ),
-            ),
-          ),
+          _buildLanguageOption('SW'),
         ],
       ),
     );
@@ -245,52 +196,32 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _buildSearchBar() {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _isSearchExpanded = true;
-        });
-      },
-      child: AnimatedContainer(
-        duration: Duration(milliseconds: 300),
-        width: _isSearchExpanded ? MediaQuery.of(context).size.width : 300,
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: Offset(0, 1),
-            ),
-          ],
-        ),
-        child: TextField(
-          controller: _searchController,
-          decoration: InputDecoration(
-            hintText: 'Search charities...',
-            prefixIcon: Icon(Icons.search, color: Colors.pink[300]),
-            suffixIcon: _isSearchExpanded
-                ? IconButton(
-                    icon: Icon(Icons.close, color: Colors.pink[300]),
-                    onPressed: () {
-                      setState(() {
-                        _isSearchExpanded = false;
-                        _searchController.clear();
-                      });
-                    },
-                  )
-                : null,
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 1,
+            blurRadius: 3,
+            offset: Offset(0, 1),
           ),
-          onSubmitted: (value) {
-            // TODO: Implement search functionality
-            print('Searching for: $value');
-          },
+        ],
+      ),
+      child: TextField(
+        controller: _searchController,
+        decoration: InputDecoration(
+          hintText: 'Search charities...',
+          prefixIcon: Icon(Icons.search, color: Colors.pink[300]),
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
         ),
+        onSubmitted: (value) {
+          // TODO: Implement search functionality
+          print('Searching for: $value');
+        },
       ),
     );
   }
