@@ -1,16 +1,29 @@
-# donations
+# Flutter Charity App
 
-A new Flutter project.
+A mobile application built with Flutter to facilitate donations to various charities and track recent donations.
+
+## Features
+
+- Beautiful and responsive UI
+- Carousel of featured charities
+- List of recent donations
+- Impact metrics display
+- Language switcher for English and Swahili
+- Donation button for quick access
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To get a local copy of the project up and running, follow these steps:
 
-A few resources to get you started if this is your first Flutter project:
+### Prerequisites
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter SDK
+- Dart SDK
+- An IDE (Android Studio, VS Code, etc.)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/charity-app.git
+   cd charity-app
