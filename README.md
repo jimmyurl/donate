@@ -29,6 +29,7 @@ To get a local copy of the project up and running, follow these steps:
    ```bash
    git clone https://github.com/jimmyurl/donate
    cd donate
+<<<<<<< HEAD
    ```
 
 2. Install dependencies:
@@ -83,3 +84,5 @@ Your Name - [Your Email](mailto:jimmy.james365@gmail.com)
 Project Link: [GitHub Repository](https://github.com/jimmyurl/donate)
 ```
 
+=======
+>>>>>>> 335e233b787d3da8d38dbaef6106d9d99e92d515
