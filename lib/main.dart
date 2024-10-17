@@ -1,122 +1,113 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'pages/home_page.dart';
-import 'pages/education_page.dart';
-import 'pages/healthcare_page.dart';
-import 'pages/clean_water_page.dart';
-import 'pages/conservation_page.dart';
-import 'state/donation_state.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => DonationState(),
-      child: DonationApp(),
-    ),
-  );
-}
+class TanzaniaRegionsPage extends StatefulWidget {
+  const TanzaniaRegionsPage({super.key});
 
-class DonationApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Donation App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MainPage(),
-    );
-  }
+  State<TanzaniaRegionsPage> createState() => _TanzaniaRegionsPageState();
 }
 
-class MainPage extends StatefulWidget {
-  @override
-  _MainPageState createState() => _MainPageState();
-}
-
-class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 0;
-
-  final List<Widget> _pages = [
-    HomePage(),
-    EducationPage(),
-    HealthcarePage(),
-    CleanWaterPage(),
-    ConservationPage(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  void _openMapSearch() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Nearby Donation Places'),
-          content: Text('Map search functionality will be implemented here.'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Close'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+class _TanzaniaRegionsPageState extends State<TanzaniaRegionsPage> {
+  String? selectedRegion;
+  final controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
-      floatingActionButton: FloatingActionButton(
-        onPressed: _openMapSearch,
-        child: Icon(Icons.location_on),
-        backgroundColor: Colors.pink[800],
+      appBar: AppBar(
+        title: Text('Tanzania Regions'),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 6.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.home),
-              color: _selectedIndex == 0 ? Colors.pink[800] : Colors.grey,
-              onPressed: () => _onItemTapped(0),
+      body: Column(
+        children: [
+          Expanded(
+            child: InteractiveTanzaniaMap(
+              selectedRegion: selectedRegion,
+              onRegionSelected: (code) {
+                setState(() {
+                  selectedRegion = code;
+                  controller.text = tanzaniaRegions[code] ?? 'Unknown Region';
+                });
+              },
             ),
-            IconButton(
-              icon: Icon(Icons.school),
-              color: _selectedIndex == 1 ? Colors.pink[800] : Colors.grey,
-              onPressed: () => _onItemTapped(1),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              readOnly: true,
+              controller: controller,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Selected Region",
+              ),
+              onTap: () async {
+                final value = await showModalBottomSheet<String>(
+                  context: context,
+                  builder: (context) => const TanzaniaRegionsList(),
+                );
+                if (value != null) {
+                  controller.text = tanzaniaRegions[value] ?? 'Unknown Region';
+                  setState(() {
+                    selectedRegion = value;
+                  });
+                }
+              },
             ),
-            SizedBox(width: 40), // Space for the FAB
-            IconButton(
-              icon: Icon(Icons.local_hospital),
-              color: _selectedIndex == 2 ? Colors.pink[800] : Colors.grey,
-              onPressed: () => _onItemTapped(2),
-            ),
-            IconButton(
-              icon: Icon(Icons.water_drop),
-              color: _selectedIndex == 3 ? Colors.pink[800] : Colors.grey,
-              onPressed: () => _onItemTapped(3),
-            ),
-            IconButton(
-              icon: Icon(Icons.nature),
-              color: _selectedIndex == 4 ? Colors.pink[800] : Colors.grey,
-              onPressed: () => _onItemTapped(4),
-            ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
 }
+
+class InteractiveTanzaniaMap extends StatelessWidget {
+  final String? selectedRegion;
+  final Function(String) onRegionSelected;
+
+  const InteractiveTanzaniaMap({
+    Key? key,
+    this.selectedRegion,
+    required this.onRegionSelected,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SvgPicture.asset(
+      'assets/tanzania_map.svg',
+      semanticsLabel: 'Tanzania Map',
+      fit: BoxFit.contain,
+    );
+  }
+}
+
+class TanzaniaRegionsList extends StatelessWidget {
+  const TanzaniaRegionsList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final entries = tanzaniaRegions.entries.toList();
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: entries.length,
+      itemBuilder: (context, index) {
+        final region = entries[index];
+        return ListTile(
+          title: Text(region.value),
+          onTap: () {
+            Navigator.of(context).pop(region.key);
+          },
+        );
+      },
+    );
+  }
+}
+
+// Map of Tanzania regions
+final Map<String, String> tanzaniaRegions = {
+  'TZ-01': 'Arusha',
+  'TZ-02': 'Dar es Salaam',
+  'TZ-03': 'Dodoma',
+  'TZ-04': 'Iringa',
+  'TZ-05': 'Kagera',
+  // Add more regions as needed
+};

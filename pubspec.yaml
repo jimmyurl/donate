@@ -18,6 +18,9 @@ dependencies:
   carousel_slider: ^5.0.0
   google_fonts: ^6.2.1
   flutter_svg: ^2.0.10+1
+  geolocator: ^13.0.1
+  google_maps_flutter: ^2.9.0
+  interactive_country_map: ^0.0.6
 
 dev_dependencies:
   flutter_test:
@@ -40,6 +43,10 @@ flutter:
     - assets/images/donation4.jpg
     - assets/images/user_avatar.png
     - assets/images/conservation.jpg
+    - assets/icons/school.png
+    - assets/icons/hospital.png
+    - assets/icons/water-tap.png
+    - assets/icons/environmental.png
     - assets/images/clean_water.jpg
     - assets/images/education.jpg
     - assets/images/healthcare.jpg
