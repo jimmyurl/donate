@@ -1,11 +1,6 @@
-# 🗺️ Tanzania Regions — Flutter Map Picker
-
-An interactive Flutter widget that lets users explore and select Tanzania's regions via a tap-on-map or scrollable list interface.
 
 
-
-## ✨ Features
-# 💚 GiveNow — Flutter Donation App
+# 💚 donate — Flutter Donation App
 
 A mobile application built with Flutter to facilitate donations to various charities and track your giving history — all in one clean, intuitive interface.
 
