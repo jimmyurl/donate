@@ -57,7 +57,7 @@ flutter:
 flutter run
 ```
 
----
+
 
 ## 📦 Dependencies
 
@@ -74,7 +74,7 @@ dependencies:
   flutter_svg: ^2.0.0
 ```
 
----
+
 
 ## 🗂️ Project Structure
 
@@ -90,7 +90,7 @@ assets/
 └── tanzania_map.svg            # Tanzania SVG map (you provide this)
 ```
 
----
+
 
 ## 🧩 Widget Overview
 
@@ -122,7 +122,7 @@ InteractiveTanzaniaMap(
 
 A `ListView`-based bottom sheet that lists all regions. Returns the selected region code via `Navigator.pop`.
 
----
+
 
 ## 🌍 Regions Data
 
@@ -190,7 +190,7 @@ To add more regions, simply extend this map with the remaining Tanzania ISO code
 - [ ] Animated region highlight transitions
 - [ ] Return full region metadata (capital city, area, population)
 
----
+
 
 ## 🤝 Contributing
 
@@ -202,7 +202,7 @@ Contributions are welcome! Please open an issue first to discuss what you'd like
 4. Push to the branch: `git push origin feature/my-feature`
 5. Open a Pull Request
 
----
+
 
 ## 📄 License
 
