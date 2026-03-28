@@ -2,7 +2,7 @@
 
 An interactive Flutter widget that lets users explore and select Tanzania's regions via a tap-on-map or scrollable list interface.
 
----
+
 
 ## ✨ Features
 
@@ -11,13 +11,13 @@ An interactive Flutter widget that lets users explore and select Tanzania's regi
 - **Two-way sync** — selecting via map updates the text field, and vice versa
 - **Lightweight** — powered by `flutter_svg`, no heavy map SDKs required
 
----
+
 
 ## 📸 Preview
 
 > The map renders from a local SVG asset and highlights the selected region. A read-only text field below the map shows the currently selected region name and opens a bottom sheet picker on tap.
 
----
+
 
 ## 🚀 Getting Started
 
