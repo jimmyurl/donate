@@ -2,7 +2,7 @@
 
 # 💚 donate — Flutter Donation App
 
-A mobile application built with Flutter to facilitate donations to various charities and track your giving history — all in one clean, intuitive interface.
+A mobile application built with Flutter to facilitate donations to various charities and track your giving history.
 
 
 
